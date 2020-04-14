@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab2 part 2</title>
+</head>
+<body>
+<script src="lib/three.js"></script>
+<script src="lib/GLTFLoader.js"></script>
+<script>
+var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(75,
+window.innerWidth/window.innerHeight, 0.1, 1000);
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      camera.position.z = 200;
+      camera.position.y = 100;
+      camera.lookAt(0,0,0);
+
+var light = new THREE.PointLight(0xffffff,2,1000);
+light.position.set(50, 50, 50);
+scene.add(light);
+
+var loader = new THREE.GLTFLoader();
+loader.load('models/dog.glb', function (gltf) {
+scene.add(gltf.scene);
+}, function (xhr) {
+console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
+}, function (error) {
+console.error(error);
+});
+
+loader.load('models/cat.glb', function (gltf) {
+    gltf.scene.position.x = 50;
+    gltf.scene.rotateX(180);
+scene.add(gltf.scene);
+}, function (xhr) {
+console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
+}, function (error) {
+console.error(error);
+});
+
+loader.load('models/books.glb', function (gltf) {
+    gltf.scene.position.x = -50;
+    gltf.scene.scale.y = 3;
+scene.add(gltf.scene);
+}, function (xhr) {
+console.log((xhr.loaded / xhr.total * 100) + '% loaded' );
+}, function (error) {
+console.error(error);
+});
+
+function animate() {
+		requestAnimationFrame(animate);
+		renderer.render(scene, camera);
+}
+	animate();
+
+
+</script>
+
+</body>
+</html>

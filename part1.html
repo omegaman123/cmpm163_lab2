@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Lab 2: Intro to Three.js Part 1</title>
+		<style>
+			body { margin: 0; }
+			canvas { display: block; }
+		</style>
+	</head>
+	<body>
+		<script src="lib/three.js"></script>
+		<script>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(75,  window.innerWidth/window.innerHeight, 0.1, 1000);
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth,window.innerHeight);
+		document.body.append(renderer.domElement);
+
+		var geometry = new THREE.BoxGeometry();
+		var material = new THREE.MeshNormalMaterial();
+		var cube = new THREE.Mesh(geometry,material);
+		scene.add(cube);
+
+        var geo2 = new THREE.BoxGeometry();
+		var cube2 = new THREE.Mesh(geo2,material);
+		geo2.translate(2,0,0);
+		scene.add(cube2);
+
+		var geo3 = new THREE.BoxGeometry();
+		var cube3 = new THREE.Mesh(geo3,material);
+        geo3.translate(-2,0,0);
+        scene.add(cube3);
+
+		camera.position.z = 5;
+		camera.position.y = 5;
+		camera.lookAt(0,0,0);
+		let clock = 0;
+		let step = 1;
+
+		function animate() {
+		  requestAnimationFrame(animate);
+		  renderer.render(scene,camera);
+		  geo3.rotateX(.05);
+		  if (clock > 100){
+		      clock++;
+		      cube2.position.y += .01
+		  }  if (clock <=100){
+		      clock++;
+            cube2.position.y -= .01;
+		  } if (clock === 200){
+		      clock = 0;
+		  }
+
+		  console.log(Math.abs(cube2.position.y));
+		  cube.scale.x = Math.abs(cube2.position.y);
+		  cube.scale.y = Math.abs(cube2.position.y);
+		  cube.scale.z = Math.abs(cube2.position.y);
+		}
+		animate();
+
+		</script>
+	</body>
+</html>
